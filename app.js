@@ -38,6 +38,15 @@ function formatPercent(value) {
   return `${Math.round(value * 100)}%`;
 }
 
+function setSliderFill(input) {
+  const min = Number(input.min || 0);
+  const max = Number(input.max || 100);
+  const value = Number(input.value || min);
+  const range = max - min || 1;
+  const percent = ((value - min) / range) * 100;
+  input.style.setProperty("--range-fill", `${percent}%`);
+}
+
 function formatBytes(bytes) {
   if (!Number.isFinite(bytes) || bytes <= 0) {
     return "";
@@ -65,12 +74,14 @@ function containsFiles(event) {
 function updateDefaultVolume() {
   elements.defaultVolumeValue.textContent = formatPercent(state.defaultVolume);
   elements.defaultVolume.value = String(Math.round(state.defaultVolume * 100));
+  setSliderFill(elements.defaultVolume);
 }
 
 function updateClipVolume() {
   state.clipVolume = Math.max(0, Math.min(state.clipVolume, 1));
   elements.clipVolumeValue.textContent = formatPercent(state.clipVolume);
   elements.clipVolume.value = String(Math.round(state.clipVolume * 100));
+  setSliderFill(elements.clipVolume);
 
   if (state.video) {
     elements.videoPreview.muted = false;
@@ -319,11 +330,12 @@ function renderTracks() {
     slider.min = "0";
     slider.max = "100";
     slider.value = String(Math.round(track.volume * 100));
-    slider.disabled = !track.enabled;
     slider.setAttribute("aria-label", `Volume for ${track.name}`);
+    setSliderFill(slider);
     slider.addEventListener("input", () => {
       revokeExportUrl();
       track.volume = Number(slider.value) / 100;
+      setSliderFill(slider);
       syncTrack(track);
       value.textContent = formatPercent(track.volume);
       setExportStatus("");
