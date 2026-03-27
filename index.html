@@ -1,0 +1,86 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Omix</title>
+    <link rel="stylesheet" href="./styles.css" />
+  </head>
+  <body>
+    <div class="drop-overlay" id="drop-overlay" aria-hidden="true">
+      <div class="drop-overlay-card">
+        <strong>Drop files anywhere</strong>
+        <span><code>.mp4</code> becomes the main clip. <code>.mp3</code> or <code>.wav</code> becomes a background track.</span>
+      </div>
+    </div>
+
+    <main class="app-shell">
+      <p class="app-mark">Omix</p>
+
+      <section class="panel viewer-panel" id="viewer-panel" aria-label="Video preview">
+        <div class="viewer-controls">
+          <div class="viewer-actions">
+            <button class="ghost-button" id="pick-video" type="button">Add clip</button>
+            <button class="ghost-button export-button" id="download-mix" type="button" disabled>
+              Download mix
+            </button>
+          </div>
+
+          <div class="default-control clip-volume-card">
+            <div class="default-copy">
+              <p class="section-label">Clip volume</p>
+              <strong id="clip-volume-value">100%</strong>
+            </div>
+            <input
+              id="clip-volume"
+              type="range"
+              min="0"
+              max="100"
+              value="100"
+              aria-label="Clip volume"
+            />
+          </div>
+        </div>
+
+        <div class="video-wrap empty" id="video-wrap">
+          <video id="video-preview" controls playsinline></video>
+        </div>
+      </section>
+
+      <aside class="panel controls-panel" aria-label="Track controls">
+        <div class="panel-bar">
+          <div class="control-actions">
+            <button class="ghost-button" id="pick-audio" type="button">Add audio</button>
+          </div>
+          <div class="control-actions">
+            <button class="ghost-button" id="mute-all" type="button">Mute all</button>
+            <button class="ghost-button" id="clear-all" type="button">Clear all</button>
+          </div>
+        </div>
+
+        <div class="default-control">
+          <div class="default-copy">
+            <p class="section-label">Default volume</p>
+            <strong id="default-volume-value">20%</strong>
+          </div>
+          <input
+            id="default-volume"
+            type="range"
+            min="0"
+            max="100"
+            value="20"
+            aria-label="Default new-track volume"
+          />
+        </div>
+
+        <p class="export-status" id="export-status"></p>
+
+        <div id="tracks" class="track-list">
+          <p class="empty-state">Drop any <strong>.mp4</strong> to replace the clip, then drop any <strong>.mp3</strong> or <strong>.wav</strong> files to add background tracks.</p>
+        </div>
+      </aside>
+    </main>
+
+    <script src="./app.js"></script>
+  </body>
+</html>
